@@ -25,7 +25,7 @@ def training(train_dataloader,choose_model = "clip_3",
         hit@1 values over the number of epochs
   """
 
-  num_epochs = 20
+  num_epochs = 25
   input_size = 512
   hidden_size = 512
   output_size = 512
@@ -59,7 +59,7 @@ def training(train_dataloader,choose_model = "clip_3",
 
         for batch in tqdm(train_dataloader):
 
-          img, text, target,label_idx = batch
+          text, img, target,label_idx = batch
           optimizer.zero_grad()
           text_logit, img_logit = model(img,text)
           
