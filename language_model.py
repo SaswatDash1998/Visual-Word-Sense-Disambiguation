@@ -42,8 +42,8 @@ def training(train_dataloader,choose_model = "clip_3",
   elif(choose_model == "clip_3"):
     model = CLIP_3(input_size, hidden_size, output_size)
 
-  #AdamW optimizer defined with learning rate of 1e-4.
-  optimizer = torch.optim.AdamW(model.parameters(), lr=0.0001)
+  #AdamW optimizer defined with learning rate of 1e-5.
+  optimizer = torch.optim.AdamW(model.parameters(), lr=0.00001)
   
   #lists to store model evaluation metrics per epoch
   epoch_loss = []
@@ -65,7 +65,7 @@ def training(train_dataloader,choose_model = "clip_3",
           
           #Performs matrix multiplication of 2 tensors given the dimensions.
           #This method is called Einstien's summation.
-          sim = torch.einsum('ijk,ik->ij', text_logit, img_logit)
+          sim = torch.einsum('ik,ijk->ij', text_logit, img_logit)
           loss = loss_f(sim, target)
           loss.backward()
           optimizer.step()
@@ -115,7 +115,7 @@ def testing(model,test_dataloader):
           
           text_logit, img_logit = model(images, text)
 
-          sim = torch.einsum('ijk,ik->ij', text_logit, img_logit)
+          sim = torch.einsum('ik,ijk->ij', text_logit, img_logit)
 
           hit += hit_score(sim,label_idx)
           mrr += mrr_score(sim,label_idx)
